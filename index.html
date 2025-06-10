@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Royma</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-light d-flex">
+    <div class="mx-5 w-10">side-bar</div>
+
+    <div class="mx-5  w-100 my-5">
+
+        <div class="container-fluid py-4 ">
+            <div class="d-flex justify-content-between align-items-center ">
+               
+
+                <div class="col-md-4 w-28 mx-0 px-3">
+                    <div class="card border-1 shadow rounded-4  ">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <p class="text-primary mb-1">Total Orders</p>
+                                    <h3 class="mb-0">1,248</h3>
+                                </div>
+                                <div class=" p-3 rounded">
+                                    <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 w-28 mx-0 px-3">
+                    <div class="card border-1 shadow rounded-4">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <p class="text-success mb-1">Diplomas Issued</p>
+                                    <h3 class="mb-0">924</h3>
+                                </div>
+                                <div class="p-3 rounded">
+                                    <i class="fas fa-graduation-cap fa-2x text-gray-100"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 w-28 mx-0 px-3">
+                    <div class="card border-1 shadow rounded-4 ">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <p class="text-info mb-1">Pending Orders</p>
+                                    <h3 class="mb-0">334</h3>
+                                </div>
+                                <div class="  p-3 rounded">
+                                    <i class="fas fa-clock fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="row mt-4">
+     
+                <div class="col-md-8">
+                    <div class="card border-1 shadow rounded-3">
+                        <div class="card-header bg-white border-0">
+                            <h5 class="mb-0 text-primary my-2">Orders Overview</h5>
+                        </div>
+                        <div class="card-body">
+                            <div style="height: 250px;">
+                                <canvas id="ordersChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    
+     
+                <div class="col-md-4">
+                    <div class="card border-1 shadow rounded-3">
+                        <div class="card-header bg-white border-0">
+                            <h5 class="mb-0 text-primary my-2">Diplomas Status</h5>
+                        </div>
+                        <div class="card-body">
+                            <div style="height: 250px;">
+                                <canvas id="diplomasChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="row mt-4 ">
+                <div class="col-md-12">
+                    <div class="card border-1 shadow rounded-3 w-90">
+                        <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center  ">
+                            <h5 class="my-2 text-primary mx-0">Search & Actions</h5>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="card-body">
+                                    <button class="btn btn-warning mr-5" data-bs-toggle="modal" data-bs-target="#fileModal">
+                                        <i class="fas fa-plus me-2"></i>Add Files
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <form method="get" action="#" class="d-flex my-4 ">
+                            <input class="form-control ml-1 w-75 p-3 mx-auto h-25" type="search" placeholder="CNE" aria-label="Search">
+                            <button class="btn btn-primary ml-5 p-5.5 mx-5 w-10 border-0 rounded-4 " type="submit">
+                                search
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="modal fade" id="fileModal" tabindex="-1" aria-labelledby="fileModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="fileModalLabel">Add Files</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="border rounded p-4 text-center" id="dropZone">
+                            <i class="fas fa-cloud-upload-alt fa-3x text-muted mb-3"></i>
+                            <p class="mb-2">Drag and drop files here</p>
+                            <p class="text-muted small mb-3">or</p>
+                            <input type="file" id="fileInput" class="d-none">
+                            <button class="btn btn-primary" onclick="document.getElementById('fileInput').click()">
+                                Select Files
+                            </button>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary" id="uploadBtn" disabled>Upload</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+
+        <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="confirmationModalLabel">Success</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="text-center">
+                            <i class="fas fa-check-circle text-success fa-4x mb-3"></i>
+                            <p>Your file has been successfully added!</p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+ 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+     <!-- do not change the script or delete it "mat supp had script !!! " -->
+    <script>
+        
+        const ordersCtx = document.getElementById('ordersChart').getContext('2d');
+        const ordersChart = new Chart(ordersCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                datasets: [{
+                    label: 'Orders',
+                    data: [65, 59, 80, 81, 56, 55, 40, 70, 90, 85, 75, 95],
+                    backgroundColor: [
+                                    'rgba(78, 115, 223, 0.5)',
+                                        ],
+                    borderColor: [
+                                'rgba(78, 115, 223, 1)',
+                                ],
+                            borderWidth: 1
+                    }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 120,
+                        ticks: {
+                            stepSize: 20
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+
+        
+        const diplomasCtx = document.getElementById('diplomasChart').getContext('2d');
+        const diplomasChart = new Chart(diplomasCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Completed', 'In Progress', 'Pending'],
+                datasets: [{
+                    data: [60, 25, 15],
+                    backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
+                    hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
+                    hoverBorderColor: "rgba(234, 236, 244, 1)",
+                    
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                cutout: '70%',
+    }
+        });
+
+       
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+        const uploadBtn = document.getElementById('uploadBtn');
+
+      
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropZone.addEventListener(eventName, highlight, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, unhighlight, false);
+        });
+
+        function highlight() {
+            dropZone.classList.add('border-primary');
+        }
+
+        function unhighlight() {
+            dropZone.classList.remove('border-primary');
+        }
+
+        dropZone.addEventListener('drop', handleDrop, false);
+
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            handleFiles(files);
+        }
+
+        fileInput.addEventListener('change', function() {
+            handleFiles(this.files);
+        });
+
+        function handleFiles(files) {
+            if (files.length > 0) {
+                uploadBtn.disabled = false;
+            }
+        }
+
+        uploadBtn.addEventListener('click', function() {
+            const modal = bootstrap.Modal.getInstance(document.getElementById('fileModal'));
+            modal.hide();
+            
+            const confirmationModal = new bootstrap.Modal(document.getElementById('confirmationModal'));
+            confirmationModal.show();
+            
+            uploadBtn.disabled = true;
+        });
+    </script>
+</body>
+</html>
